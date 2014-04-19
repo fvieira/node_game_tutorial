@@ -44,3 +44,10 @@ Keys.prototype.onKeyUp = function(e) {
             break;
     }
 };
+
+Keys.prototype.clearAllKeys = function() {
+    this.up = false;
+    this.left = false;
+    this.right = false;
+    this.down = false;
+};

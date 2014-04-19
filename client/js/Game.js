@@ -31,8 +31,12 @@ Game.prototype.init = function() {
     var startX = Math.round(Math.random()*(this.canvas.width-5)),
         startY = Math.round(Math.random()*(this.canvas.height-5));
 
+    var r = Math.floor(Math.random() * 256),
+        g = Math.floor(Math.random() * 256),
+        b = Math.floor(Math.random() * 256);
+
     // Initialise the local player
-    this.localPlayer = new Player(undefined, startX, startY);
+    this.localPlayer = new Player(undefined, startX, startY, [r, g, b]);
 
     this.socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]});
 
@@ -51,6 +55,9 @@ Game.prototype.setEventHandlers = function() {
 
     // Window resize
     window.addEventListener("resize", this.onResize.bind(this), false);
+
+    // Window blur
+    window.addEventListener("blur", this.onBlur.bind(this), false);
 
     this.socket.on("connect", this.onSocketConnected.bind(this));
     this.socket.on("disconnect", this.onSocketDisconnect.bind(this));
@@ -80,9 +87,16 @@ Game.prototype.onResize = function(e) {
     this.canvas.height = window.innerHeight;
 };
 
+// Window blur
+Game.prototype.onBlur = function(e) {
+    if (this.localPlayer) {
+        this.keys.clearAllKeys();
+    }
+};
+
 Game.prototype.onSocketConnected = function() {
     console.log("Connected to socket server");
-    this.socket.emit("new player", {x: this.localPlayer.x, y: this.localPlayer.y});
+    this.socket.emit("new player", {x: this.localPlayer.x, y: this.localPlayer.y, color: this.localPlayer.color});
 };
 
 Game.prototype.onSocketDisconnect = function() {
@@ -90,8 +104,8 @@ Game.prototype.onSocketDisconnect = function() {
 };
 
 Game.prototype.onNewPlayer = function(data) {
-    console.log("New player connected: " + data.id);
-    var newPlayer = new Player(data.id, data.x, data.y);
+    console.log("New player connected: " + JSON.stringify(data));
+    var newPlayer = new Player(data.id, data.x, data.y, data.color);
     this.remotePlayers[newPlayer.id] = newPlayer;
 };
 

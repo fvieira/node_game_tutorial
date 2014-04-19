@@ -34,11 +34,11 @@ function onClientDisconnect() {
 
 function onNewPlayer(data) {
     util.log(util.format("New player: %s -> %j", this.id, data));
-    var newPlayer = new Player(this.id, data.x, data.y);
-    this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.x, y: newPlayer.y});
+    var newPlayer = new Player(this.id, data.x, data.y, data.color);
+    this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.x, y: newPlayer.y, color: newPlayer.color});
     var id;
     for (id in players) {
-        this.emit("new player", {id: id, x: players[id].x, y: players[id].y});
+        this.emit("new player", {id: id, x: players[id].x, y: players[id].y, color: players[id].color});
     }
     players[newPlayer.id] = newPlayer;
 }
