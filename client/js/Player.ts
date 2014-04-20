@@ -1,13 +1,12 @@
 /// <reference path="Color.ts" />
 /// <reference path="Keys.ts" />
-var Player = (function () {
-    function Player(id, x, y, color) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        this.color = color;
-    }
-    Player.prototype.update = function (keys) {
+
+class Player {
+    static moveAmount: number = 2;
+    
+    constructor(public id: string, public x: number, public y:number, public color: Color) {}
+
+    update(keys: Keys): void {
         // Up key takes priority over down
         if (keys.up) {
             this.y -= Player.moveAmount;
@@ -21,13 +20,12 @@ var Player = (function () {
         } else if (keys.right) {
             this.x += Player.moveAmount;
         }
-    };
+    }
 
-    Player.prototype.draw = function (ctx) {
+    draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = this.color.getAsRGB();
         ctx.fillRect(this.x - 5, this.y - 5, 10, 10);
-    };
-    Player.moveAmount = 2;
-    return Player;
-})();
-//# sourceMappingURL=Player.js.map
+    }
+}
+
+
