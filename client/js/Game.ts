@@ -44,7 +44,7 @@ class Game {
         this.localPlayer = new Player(undefined, startX, startY, color);
         this.remotePlayers = {};
 
-        this.socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]});
+        this.socket = io.connect("/", {port: 80, transports: ["websocket"]});
 
         // Start listening for events
         this.setEventHandlers();

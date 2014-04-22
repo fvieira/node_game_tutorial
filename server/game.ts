@@ -20,7 +20,7 @@ var socket: io.SocketManager,
 
 function init() {
     players = {};
-    socket = io.listen(8000);
+    socket = io.listen(80);
     socket.configure(function() {
         socket.set("transports", ["websocket"]);
         socket.set("log level", 2);
