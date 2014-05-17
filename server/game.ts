@@ -62,8 +62,8 @@ function onMovePlayer(data) {
     if (thisPlayer) {
         thisPlayer.x += data.dx;
         thisPlayer.y += data.dy;
+        this.broadcast.emit("move player", {id: this.id, x: thisPlayer.x, y: thisPlayer.y});
     }
-    this.broadcast.emit("move player", {id: this.id, x: thisPlayer.x, y: thisPlayer.y});
 }
 
 init();
